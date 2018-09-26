@@ -14,11 +14,33 @@
 	</bean>
 
 	<bean id="datasource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="url" value="jdbc:h2:mem:test"></property>
+		<property name="url" value="jdbc:h2:mem:test;DB_CLOSE_DELAY=-1"></property>
 		<property name="username" value="test"></property>
 		<property name="password" value="test"></property>
 		<property name="driverClassName" value="org.h2.Driver"></property>
 
+	</bean>
+
+
+	<bean class="org.springframework.beans.factory.config.PropertiesFactoryBean" id="hibernateProperties">
+		<property name="properties">
+			<props>
+				<prop key="hibernate.dialect">org.hibernate.dialect.H2Dialect</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.connection.autocommit">false</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+		<property name="dataSource" ref="datasource" />
+		<property name="hibernateProperties" ref="hibernateProperties" />
+		<property name="packagesToScan">
+			<list>
+				<value>fr.epita.quiz.datamodel</value>
+			</list>
+		</property>
 	</bean>
 
 
