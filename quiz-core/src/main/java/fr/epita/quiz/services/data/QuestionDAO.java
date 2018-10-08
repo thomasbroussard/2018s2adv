@@ -1,6 +1,5 @@
 package fr.epita.quiz.services.data;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -25,25 +24,39 @@ public class QuestionDAO {
 
 	public void create(Question question) {
 		Session session = getSession();
-		Transaction tx = getTransaction(session);
+		Commitable<Transaction> commitableTx = getTransaction(session);
 		session.save(question);
-		handleCommit(tx);
+		commitableTx.commit();
 
 	}
 
-	private void handleCommit(Transaction tx) {
-		// TODO : improve the transaction logic
-		tx.commit();
-	}
 
-	private Transaction getTransaction(Session session) {
-		Transaction currentTransaction = session.getTransaction();
-		if (currentTransaction == null 
-				|| !currentTransaction.getStatus().equals(TransactionStatus.ACTIVE)){
-			currentTransaction = session.beginTransaction();
-		}
+	private Commitable<Transaction> getTransaction(Session session) {
+		final boolean areWeTheInitiatorOfTheTransaction =  session.getTransaction() == null 
+				|| ! session.getTransaction().getStatus().equals(TransactionStatus.ACTIVE);
+		final Transaction currentTransaction = areWeTheInitiatorOfTheTransaction ? session.beginTransaction() : session.getTransaction();
 		
-		return currentTransaction;
+		
+		return new Commitable<Transaction>() {
+			
+			public boolean isCommitable() {
+				return areWeTheInitiatorOfTheTransaction;
+			}
+			
+			
+			public Transaction getInstance() {
+				return currentTransaction;
+			}
+
+
+			public void commit() {
+				if (areWeTheInitiatorOfTheTransaction) {
+					currentTransaction.commit();
+				}
+				
+			}
+		};
+	
 	}
 
 	private Session getSession() {
@@ -74,16 +87,16 @@ public class QuestionDAO {
 
 	public void update(Question question) {
 		Session session = getSession();
-		Transaction tx = getTransaction(session);
+		Commitable<Transaction> tx = getTransaction(session);
 		session.update(question);
-		handleCommit(tx);
+		tx.commit();
 	}
 
 	public void delete(Question question) {
 		Session session = getSession();
-		Transaction tx = getTransaction(session);
+		Commitable<Transaction> tx = getTransaction(session);
 		session.delete(question);
-		handleCommit(tx);
+		tx.commit();
 	}
 
 }
