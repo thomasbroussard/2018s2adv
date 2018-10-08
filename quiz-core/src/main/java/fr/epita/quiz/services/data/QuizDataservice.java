@@ -24,7 +24,7 @@ public class QuizDataservice {
 	
 	
 	public void createQuestionWithChoices(Question question, MCQChoice... choices) {
-		
+
 		Session session = sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		questionDAO.create(question);

@@ -16,6 +16,7 @@ import fr.epita.quiz.datamodel.MCQChoice;
 import fr.epita.quiz.datamodel.Question;
 import fr.epita.quiz.services.data.MCQChoiceDAO;
 import fr.epita.quiz.services.data.QuestionDAO;
+import fr.epita.quiz.services.data.QuizDataservice;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations= {"/applicationContext.xml"})
@@ -31,6 +32,8 @@ public class TestJPA {
 	@Inject
 	private QuestionDAO questionDAO;
 	
+	@Inject
+	private QuizDataservice quizDS;
 	
 	
 	@Test
@@ -130,6 +133,37 @@ public class TestJPA {
 		
 		
 		session.close();
+		
+		//then
+		Session session2 = sf.openSession();
+		Query<Question> searchQuery = session2.createQuery("from Question", Question.class);
+		
+		Assert.assertNotEquals(0, searchQuery.list().size());
+		
+		Query<MCQChoice> searchQueryMCQ = session2.createQuery("from MCQChoice", MCQChoice.class);
+		Assert.assertEquals(2, searchQueryMCQ.list().size());
+		
+		
+		session2.close();
+		
+	}
+	@Test
+	public void testJPAThroughDS() {
+		
+		//given 
+		Question question = new Question();
+		question.setQuestionLabel("What is JPA?");
+		MCQChoice choice1 = new MCQChoice();
+		choice1.setChoiceLabel("it is a dependency injection framework");
+		choice1.setValid(false);
+		
+		MCQChoice choice2 = new MCQChoice();
+		choice2.setChoiceLabel("it is a specification to normalize persistence in java");
+		choice2.setValid(true);
+	
+		
+		//when
+		this.quizDS.createQuestionWithChoices(question, choice1, choice2);
 		
 		//then
 		Session session2 = sf.openSession();

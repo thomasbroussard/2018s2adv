@@ -8,6 +8,8 @@ import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 
 import fr.epita.quiz.datamodel.Question;
+
+
 @Repository
 public class QuestionDAO extends GenericDAO<Question>{
 
