@@ -75,7 +75,7 @@ public abstract class GenericDAO<T> {
 		try {
 			session = sf.getCurrentSession();
 		} catch (HibernateException he) {
-			LOGGER.warn("got an exception while trying to get the current session", he);
+			LOGGER.warn("got an exception while trying to get the current session : {}", he.getMessage());
 		}
 		if (session == null) {
 			session = sf.openSession();
