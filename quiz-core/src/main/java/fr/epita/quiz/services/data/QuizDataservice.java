@@ -1,5 +1,10 @@
 package fr.epita.quiz.services.data;
 
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.hibernate.Session;
@@ -34,6 +39,18 @@ public class QuizDataservice {
 		}
 		tx.commit();
 		session.close();
+		
+	}
+	
+	public Map<Question,List<MCQChoice>> findAllQuestions(Question question) {
+		Map<Question,List<MCQChoice>> questionsAndChoices = new LinkedHashMap<Question,List<MCQChoice>>(); 
+		
+		List<Question> list = questionDAO.search(question);
+		for (Question current : list) {
+			questionsAndChoices.put(current, null);//TODO fetch mcqChoices
+		}
+		return questionsAndChoices;
+		
 		
 	}
 	

@@ -36,6 +36,8 @@ public class TestSOAPWS {
 		LOGGER.info("about to trigger save method with : {} ",qm);
 		
 		quizWSClient.saveQuestion(qm);
+		
+		LOGGER.info(quizWSClient.listQuestions(qm));
 	}
 	
 
