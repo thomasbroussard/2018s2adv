@@ -1,11 +1,14 @@
 package fr.epita.quiz.services.web;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.inject.Inject;
+import javax.jws.WebMethod;
+import javax.jws.WebService;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +18,8 @@ import fr.epita.quiz.datamodel.Question;
 import fr.epita.quiz.services.data.QuizDataservice;
 import fr.epita.quiz.services.web.api.QuizWS;
 import fr.epita.quiz.services.web.api.transport.QuestionMessage;
+
+
 
 public class QuizWSImpl implements QuizWS {
 

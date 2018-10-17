@@ -7,7 +7,8 @@ import javax.jws.WebService;
 
 import fr.epita.quiz.services.web.api.transport.QuestionMessage;
 
-@WebService
+@WebService/*(portName="quizport", serviceName="quizservice")*/
+//TODO check how to configure port and service
 public interface QuizWS {
 
 	@WebMethod
