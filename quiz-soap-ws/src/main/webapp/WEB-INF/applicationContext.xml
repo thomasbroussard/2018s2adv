@@ -16,6 +16,12 @@
 	<context:annotation-config />
 	<context:component-scan base-package="fr.epita.quiz.services.data" />
 
-	<jaxws:endpoint id="quizWS" implementor="fr.epita.quiz.services.web.QuizWSImpl" address="/quiz-ws" />
+	<jaxws:endpoint id="quizWS" 
+		implementor="fr.epita.quiz.services.web.QuizWSImpl" 
+		xmlns:e="http://web.epita.quiz.fr/endpoint"
+		xmlns:s="http://web.epita.quiz.fr/service"
+		endpointName="e:quizPort" 
+		serviceName="s:quizService" 
+		address="/quiz-ws" />
 
 </beans>

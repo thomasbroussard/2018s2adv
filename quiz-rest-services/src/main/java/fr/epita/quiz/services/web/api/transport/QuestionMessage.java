@@ -3,8 +3,7 @@ package fr.epita.quiz.services.web.api.transport;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.epita.quiz.datamodel.MCQChoice;
-import fr.epita.quiz.datamodel.Question;
+
 
 public class QuestionMessage {
 	
@@ -30,23 +29,27 @@ public class QuestionMessage {
 		this.mcqChoices = mcqChoices;
 	}
 	
-	public Question toQuestion() {
-		Question question = new Question();
-		question.setId(this.id);
-		question.setQuestionLabel(this.questionLabel);
-		return question;
-	}
-	public List<MCQChoice> toMCQChoicesList(Question question) {
-		List<MCQChoice> choices = new ArrayList<MCQChoice>();
-		for (MCQChoiceMessage message : mcqChoices) {
-			message.toMCQChoice(question);
-		}
-		return choices;
-	}
+	
 
 	@Override
 	public String toString() {
 		return "QuestionMessage [id=" + id + ", questionLabel=" + questionLabel + ", mcqChoices=" + mcqChoices + "]";
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<MCQChoiceMessage> getMcqChoices() {
+		return mcqChoices;
+	}
+
+	public void setMcqChoices(List<MCQChoiceMessage> mcqChoices) {
+		this.mcqChoices = mcqChoices;
 	}
 
 	

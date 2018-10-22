@@ -20,7 +20,6 @@ import fr.epita.quiz.services.web.api.QuizWS;
 import fr.epita.quiz.services.web.api.transport.QuestionMessage;
 
 
-
 public class QuizWSImpl implements QuizWS {
 
 	private static final Logger LOGGER = LogManager.getLogger(QuizWSImpl.class);
@@ -29,7 +28,7 @@ public class QuizWSImpl implements QuizWS {
 	QuizDataservice ds;
 	
 	
-	@Override
+	
 	public void saveQuestion(QuestionMessage qm) {
 		LOGGER.info("entering saveQuestion : {} ", qm);
 		
@@ -40,7 +39,6 @@ public class QuizWSImpl implements QuizWS {
 		LOGGER.info("exiting saveQuestion : success");
 	}
 
-	@Override
 	public List<QuestionMessage> listQuestions(QuestionMessage qmCriteria) {
 		LOGGER.info("entering listQuestions : {} ", qmCriteria);
 		List<QuestionMessage> messages = new ArrayList<QuestionMessage>();

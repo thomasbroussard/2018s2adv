@@ -13,7 +13,13 @@
 
 	<context:annotation-config />
 	
-	<jaxws:client id="quizClient" serviceClass="fr.epita.quiz.services.web.api.QuizWS"	address="http://localhost:8080/quiz-soap-ws/quiz-ws" />
+	<jaxws:client id="quizClient"   
+		xmlns:e="http://web.epita.quiz.fr/endpoint"
+    	xmlns:s="http://web.epita.quiz.fr/service" 
+    	endpointName="e:quizPort" 
+    	serviceName="s:quizService"
+    	serviceClass="fr.epita.quiz.services.web.api.QuizWS"	
+    	address="http://localhost:8080/quiz-soap-ws/quiz-ws" />
 		
 <!-- 	jaxws:client serviceName="quizservice" bindingId="http://api.web.services.quiz.epita.fr/" endpointName="quizport" id="quizClient"  serviceClass="fr.epita.quiz.services.web.api.QuizWS"
 		address="http://localhost:8080/quiz-soap-ws/quiz-ws" -->
