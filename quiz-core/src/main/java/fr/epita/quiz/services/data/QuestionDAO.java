@@ -9,19 +9,24 @@ import org.springframework.stereotype.Repository;
 
 import fr.epita.quiz.datamodel.Question;
 
-
 @Repository
-public class QuestionDAO extends GenericDAO<Question>{
+public class QuestionDAO extends GenericDAO<Question> {
 
 	private static final Logger LOGGER = LogManager.getLogger(QuestionDAO.class);
 
-
 	public List<Question> search(Question questionCriteria) {
-		
-		Query<Question> searchQuery = getSession().createQuery("from Question where questionLabel like :inputString ", Question.class);
-		searchQuery.setParameter("inputString", "%"+questionCriteria.getQuestionLabel()+"%");
+
+		Query<Question> searchQuery = getSession().createQuery(
+				"from Question where (:inputString is null) or(:inputString is not null and questionLabel like :inputString) ",
+				Question.class);
+
+		String questionLabel = questionCriteria.getQuestionLabel();
+		if (questionLabel == null || questionCriteria.equals("")) {
+			searchQuery.setParameter("inputString", null);
+		} else {
+			searchQuery.setParameter("inputString", "%" + questionLabel + "%");
+		}
 		return searchQuery.list();
-		
 
 	}
 
@@ -30,6 +35,5 @@ public class QuestionDAO extends GenericDAO<Question>{
 		// TODO Auto-generated method stub
 		return Question.class;
 	}
-
 
 }
